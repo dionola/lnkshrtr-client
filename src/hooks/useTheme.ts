@@ -1,16 +1,19 @@
 import { useState, useCallback, useEffect } from "react"
 
+function getInitialTheme() {
+    if (typeof window === "undefined") return false
+    const stored = localStorage.getItem("theme")
+    const prefersDark = window.matchMedia?.("(prefers-color-scheme: dark)").matches
+    return stored ? stored === "dark" : prefersDark
+}
+
 export function useTheme() {
-    const [isDark, setIsDark] = useState(false)
+    const [isDark, setIsDark] = useState(getInitialTheme)
 
     useEffect(() => {
         if (typeof window === "undefined") return
-        const stored = localStorage.getItem("theme")
-        const prefersDark = window.matchMedia?.("(prefers-color-scheme: dark)").matches
-        const shouldUseDark = stored ? stored === "dark" : prefersDark
-        document.documentElement.classList.toggle("dark", shouldUseDark)
-        setIsDark(shouldUseDark)
-    }, [])
+        document.documentElement.classList.toggle("dark", isDark)
+    }, [isDark])
 
     const toggleTheme = useCallback(() => {
         if (typeof window === "undefined") return

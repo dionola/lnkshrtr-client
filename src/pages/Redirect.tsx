@@ -49,8 +49,7 @@ export default function Redirect() {
         if (
           foundLink &&
           foundLink.isActive &&
-          !foundLink.isPasswordProtected &&
-          foundLink.type !== "notes"
+          !foundLink.isPasswordProtected
         ) {
           await linksApi.trackClick(shortCode)
           incrementVisits(foundLink.id)
@@ -173,39 +172,6 @@ export default function Redirect() {
                 </button>
               </form>
             </div>
-          </div>
-        </div>
-      </main>
-    )
-  }
-
-  if (link.type === "notes") {
-    return (
-      <main className="flex flex-1 flex-col bg-foreground">
-        <div className="mx-auto max-w-4xl px-6 py-12">
-          <div className="min-h-[600px] border border-background/20 bg-background/5 p-8">
-            {link.notesContent && (
-              <div className="prose prose-invert max-w-none">
-                <div className="whitespace-pre-wrap text-background">
-                  {link.notesContent}
-                </div>
-              </div>
-            )}
-            {link.notesImages && link.notesImages.length > 0 && (
-              <div className="mt-6 grid grid-cols-1 gap-4 md:grid-cols-2">
-                {link.notesImages.map((imageUrl, index) => (
-                  <img
-                    key={index}
-                    src={imageUrl}
-                    alt={`Note image ${index + 1}`}
-                    className="w-full rounded border border-background/20"
-                  />
-                ))}
-              </div>
-            )}
-            {!link.notesContent && (!link.notesImages || link.notesImages.length === 0) && (
-              <p className="text-background/40">empty notes</p>
-            )}
           </div>
         </div>
       </main>

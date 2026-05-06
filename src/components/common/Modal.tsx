@@ -18,7 +18,10 @@ interface ModalProps {
 
 export function Modal({ title, onClose, children, maxWidth = "md", subtitle, closeOnBackdropClick = true }: ModalProps) {
     const onCloseRef = useRef(onClose)
-    onCloseRef.current = onClose
+
+    useEffect(() => {
+        onCloseRef.current = onClose
+    }, [onClose])
 
     useEffect(() => {
         const handler = (e: KeyboardEvent) => { if (e.key === "Escape") onCloseRef.current() }

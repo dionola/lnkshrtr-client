@@ -1,19 +1,15 @@
-import { useState, useEffect } from "react"
+import { useState } from "react"
 import { Link, useNavigate, useSearchParams } from "react-router-dom"
 import { useAuth } from "@/hooks/useAuth"
 import { LoginForm } from "@/components/auth/LoginForm"
 import { GoogleSignInButton } from "@/components/auth/GoogleSignInButton"
 
 export default function Login() {
-    const [error, setError] = useState("")
     const { login, isLoading } = useAuth()
     const navigate = useNavigate()
     const [searchParams] = useSearchParams()
-
-    useEffect(() => {
-        const errorParam = searchParams.get("error")
-        if (errorParam) setError(decodeURIComponent(errorParam))
-    }, [searchParams])
+    const errorParam = searchParams.get("error")
+    const [error, setError] = useState(() => errorParam ? decodeURIComponent(errorParam) : "")
 
     const handleSubmit = async (email: string, password: string) => {
         setError("")

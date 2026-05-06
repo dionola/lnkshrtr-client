@@ -14,9 +14,6 @@ function mapApiLink(apiLink: ApiLink): Link {
         isActive: apiLink.isActive,
         isPasswordProtected: apiLink.isPasswordProtected,
         userId: apiLink.userId,
-        type: apiLink.type || "link",
-        notesContent: apiLink.notesContent,
-        notesImages: apiLink.notesImages,
     }
 }
 
@@ -31,10 +28,7 @@ interface LinksState {
         isPublic?: boolean,
         isPasswordProtected?: boolean,
         password?: string,
-        userId?: string,
-        type?: "link" | "notes",
-        notesContent?: string,
-        notesImages?: string[]
+        userId?: string
     ) => Promise<Link>
     updateLink: (id: string, updates: Partial<Link> & { password?: string }) => Promise<void>
     deleteLink: (id: string) => Promise<void>
@@ -68,13 +62,10 @@ export const useLinksStore = create<LinksState>((set, get) => ({
         isPublic = true,
         isPasswordProtected = false,
         password?,
-        userId?,
-        type: "link" | "notes" = "link",
-        notesContent?,
-        notesImages?
+        userId?
     ) => {
         const apiLink = await linksApi.createLink(
-            url, customCode, isPublic, isPasswordProtected, password, userId, type, notesContent, notesImages
+            url, customCode, isPublic, isPasswordProtected, password, userId
         )
         const newLink = mapApiLink(apiLink)
         set((state) => ({ links: [newLink, ...state.links], linksError: null }))

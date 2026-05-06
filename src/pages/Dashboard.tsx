@@ -59,13 +59,15 @@ export default function Dashboard() {
                         </h1>
                         <p className="mt-2 text-background/50">@{user.username}</p>
                     </div>
-                    <button
-                        onClick={() => setShowCreateModal(true)}
-                        className="flex items-center gap-2 border-2 border-background px-4 py-2 text-sm font-medium text-background cursor-pointer transition-colors hover:bg-background hover:text-foreground"
-                    >
-                        <Plus className="h-4 w-4" />
-                        new link
-                    </button>
+                    <div className="flex flex-wrap items-center gap-3">
+                        <button
+                            onClick={() => setShowCreateModal(true)}
+                            className="flex items-center gap-2 border-2 border-background px-4 py-2 text-sm font-medium text-background cursor-pointer transition-colors hover:bg-background hover:text-foreground"
+                        >
+                            <Plus className="h-4 w-4" />
+                            new link
+                        </button>
+                    </div>
                 </div>
 
                 {deleteError && (

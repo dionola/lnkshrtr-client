@@ -3,7 +3,6 @@ export interface User {
     username: string
     email: string
     createdAt: Date
-    notes?: string
 }
 
 export interface Link {
@@ -17,9 +16,6 @@ export interface Link {
     isActive: boolean
     isPasswordProtected: boolean
     userId?: string
-    type?: "link" | "notes"
-    notesContent?: string
-    notesImages?: string[]
 }
 
 export interface ApiUser {
@@ -27,7 +23,6 @@ export interface ApiUser {
     username: string
     email: string
     createdAt: string
-    notes?: string
 }
 
 export interface ApiLink {
@@ -43,7 +38,5 @@ export interface ApiLink {
     /** Write-only: only sent to server when updating/creating a password-protected link */
     password?: string
     userId?: string
-    type?: "link" | "notes"
-    notesContent?: string
-    notesImages?: string[]
 }
+

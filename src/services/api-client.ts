@@ -4,10 +4,12 @@ const API_BASE = import.meta.env.VITE_API_URL || "/api"
 
 export class ApiError extends Error {
     status: number
-    constructor(message: string, status: number) {
+    details?: unknown
+    constructor(message: string, status: number, details?: unknown) {
         super(message)
         this.name = "ApiError"
         this.status = status
+        this.details = details
     }
 }
 
@@ -56,13 +58,27 @@ function errorMessage(body: unknown): string {
     return "Request failed"
 }
 
+function errorDetails(body: unknown): unknown {
+    if (typeof body !== "object" || body === null) return undefined
+    const b = body as Record<string, unknown>
+    if (typeof b.error === "object" && b.error !== null) {
+        const e = b.error as Record<string, unknown>
+        return e.details
+    }
+    return undefined
+}
+
 async function request<T>(path: string, init?: RequestInit, fallbackMessage = "Request failed"): Promise<T> {
     const response = await fetch(`${API_BASE}${path}`, init)
 
     if (!response.ok) {
         const body = await parseResponseBody(response)
         const message = errorMessage(body)
-        throw new ApiError(message === "Request failed" ? fallbackMessage : message, response.status)
+        throw new ApiError(
+            message === "Request failed" ? fallbackMessage : message,
+            response.status,
+            errorDetails(body)
+        )
     }
 
     if (response.status === 204) {
@@ -134,10 +150,7 @@ export const linksApi = {
         isPublic?: boolean,
         isPasswordProtected?: boolean,
         password?: string,
-        userId?: string,
-        type?: "link" | "notes",
-        notesContent?: string,
-        notesImages?: string[]
+        userId?: string
     ): Promise<ApiLink> {
         return request<ApiLink>("/links", {
             method: "POST",
@@ -150,9 +163,6 @@ export const linksApi = {
                 isPasswordProtected,
                 password,
                 userId,
-                type,
-                notesContent,
-                notesImages,
             }),
         })
     },
@@ -201,19 +211,4 @@ export const linksApi = {
         return request<ApiUser>(`/public/${username}`, undefined, "Failed to get user")
     },
 
-    async getUserNotes(username: string): Promise<string> {
-        return request<string>(`/users/${username}/notes`, {
-            headers: getAuthHeaders(),
-            credentials: "include",
-        }, "Failed to get notes")
-    },
-
-    async updateUserNotes(username: string, notes: string): Promise<void> {
-        await request<void>(`/users/${username}/notes`, {
-            method: "PATCH",
-            headers: getAuthHeaders(),
-            credentials: "include",
-            body: JSON.stringify({ notes }),
-        }, "Failed to update notes")
-    },
 }

@@ -145,8 +145,7 @@ describe("linksApi.createLink", () => {
             true,
             false,
             undefined,
-            "u1",
-            "link"
+            "u1"
         )
         expect(result.id).toBe("l1")
         const calls = vi.mocked(globalThis.fetch).mock.calls
@@ -239,32 +238,5 @@ describe("linksApi.getPublicUser", () => {
         vi.stubGlobal("fetch", mockFetchOk(apiUser))
         const result = await linksApi.getPublicUser("alice")
         expect(result.username).toBe("alice")
-    })
-})
-
-describe("linksApi.getUserNotes", () => {
-    it("GETs /api/users/:username/notes and returns string directly", async () => {
-        localStorage.setItem("lnk_token", "tok")
-        vi.stubGlobal("fetch", mockFetchOk("my notes"))
-        const result = await linksApi.getUserNotes("alice")
-        expect(result).toBe("my notes")
-        const calls = vi.mocked(globalThis.fetch).mock.calls
-        expect(String(calls[0][0])).toContain("/users/alice/notes")
-        expect((calls[0][1] as RequestInit).headers as Record<string, string>).toMatchObject({ Authorization: "Bearer tok" })
-    })
-})
-
-describe("linksApi.updateUserNotes", () => {
-    it("PATCHes /api/users/:username/notes", async () => {
-        vi.stubGlobal("fetch", vi.fn().mockResolvedValue({ ok: true } as Response))
-        await linksApi.updateUserNotes("alice", "new notes")
-        const calls = vi.mocked(globalThis.fetch).mock.calls
-        expect((calls[0][1] as RequestInit).method).toBe("PATCH")
-        expect(JSON.parse((calls[0][1] as RequestInit).body as string)).toEqual({ notes: "new notes" })
-    })
-
-    it("throws on failure", async () => {
-        vi.stubGlobal("fetch", mockFetchError({}))
-        await expect(linksApi.updateUserNotes("alice", "notes")).rejects.toThrow("Failed to update notes")
     })
 })

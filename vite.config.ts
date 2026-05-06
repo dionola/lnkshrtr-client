@@ -14,7 +14,7 @@ export default defineConfig({
     host: true, // bind to 0.0.0.0 so Windows can reach it via localhost (WSL2 port forwarding)
     proxy: {
       '/api': {
-        target: process.env.VITE_API_URL || 'http://localhost:3001',
+        target: process.env.VITE_API_URL || 'http://localhost:3000',
         changeOrigin: true,
         secure: false,
         ws: true,

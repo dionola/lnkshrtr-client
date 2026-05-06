@@ -22,7 +22,6 @@ export const mockLink: Link = {
     isActive: true,
     isPasswordProtected: false,
     userId: "user-1",
-    type: "link",
 }
 
 export const makeAuthMock = (overrides?: Partial<ReturnType<typeof createAuthMockValues>>) => ({

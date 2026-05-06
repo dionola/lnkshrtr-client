@@ -8,7 +8,6 @@ function mapApiUser(apiUser: ApiUser): User {
         username: apiUser.username,
         email: apiUser.email,
         createdAt: new Date(apiUser.createdAt),
-        notes: apiUser.notes,
     }
 }
 

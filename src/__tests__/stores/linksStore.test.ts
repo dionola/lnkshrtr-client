@@ -14,7 +14,6 @@ const apiLink = {
     isActive: true,
     isPasswordProtected: false,
     userId: "u1",
-    type: "link" as const,
 }
 
 function getStore() {
