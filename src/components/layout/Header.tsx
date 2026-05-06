@@ -20,11 +20,11 @@ export function Header({ isDark, toggleTheme }: HeaderProps) {
     }
 
     return (
-        <header className="flex items-center justify-between px-6 py-5">
+        <header className="flex flex-wrap items-center justify-between gap-4 px-6 py-5">
             <Link to="/" className="text-xl font-bold tracking-tight text-background">
                 lnkshrtr
             </Link>
-            <nav className="flex items-center gap-6">
+            <nav className="flex basis-full flex-wrap items-center gap-x-4 gap-y-2 sm:ml-auto sm:basis-auto sm:justify-end sm:gap-x-6">
                 <button
                     type="button"
                     onClick={toggleTheme}
