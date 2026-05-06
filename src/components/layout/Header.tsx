@@ -20,22 +20,22 @@ export function Header({ isDark, toggleTheme }: HeaderProps) {
     }
 
     return (
-        <header className="flex flex-wrap items-center justify-between gap-4 px-6 py-5">
-            <Link to="/" className="text-xl font-bold tracking-tight text-background">
+        <header className="flex w-screen max-w-full items-center justify-between gap-3 overflow-hidden px-4 py-5 sm:px-6">
+            <Link to="/" className="shrink-0 text-lg font-bold tracking-tight text-background sm:text-xl">
                 lnkshrtr
             </Link>
-            <nav className="flex basis-full flex-wrap items-center gap-x-4 gap-y-2 sm:ml-auto sm:basis-auto sm:justify-end sm:gap-x-6">
+            <nav className="ml-auto flex min-w-0 flex-1 items-center justify-end gap-3 sm:gap-6">
                 <button
                     type="button"
                     onClick={toggleTheme}
-                    className="text-sm text-background/70 cursor-pointer transition-colors hover:text-background"
+                    className="cursor-pointer text-xs text-background/70 transition-colors hover:text-background sm:text-sm"
                 >
                     {isDark ? "light mode" : "dark mode"}
                 </button>
                 {!user && (
                     <Link
                         to="/login"
-                        className="text-sm text-background/70 cursor-pointer transition-colors hover:text-background"
+                        className="cursor-pointer text-xs text-background/70 transition-colors hover:text-background sm:text-sm"
                     >
                         sign in
                     </Link>
@@ -43,7 +43,7 @@ export function Header({ isDark, toggleTheme }: HeaderProps) {
                 {user && !isDashboard && (
                     <Link
                         to="/dashboard"
-                        className="text-sm text-background/70 cursor-pointer transition-colors hover:text-background"
+                        className="cursor-pointer text-xs text-background/70 transition-colors hover:text-background sm:text-sm"
                     >
                         dashboard
                     </Link>
@@ -51,7 +51,7 @@ export function Header({ isDark, toggleTheme }: HeaderProps) {
                 {user && !isHome && !isProfile && (
                     <Link
                         to={`/u/${user.username}`}
-                        className="text-sm text-background/70 cursor-pointer transition-colors hover:text-background"
+                        className="cursor-pointer text-xs text-background/70 transition-colors hover:text-background sm:text-sm"
                     >
                         profile
                     </Link>
@@ -60,7 +60,7 @@ export function Header({ isDark, toggleTheme }: HeaderProps) {
                     <button
                         type="button"
                         onClick={handleLogout}
-                        className="text-sm text-background/70 cursor-pointer transition-colors hover:text-background"
+                        className="cursor-pointer text-xs text-background/70 transition-colors hover:text-background sm:text-sm"
                     >
                         sign out
                     </button>
