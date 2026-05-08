@@ -9,7 +9,7 @@ interface HeaderProps {
 export function Header({ isDark, toggleTheme }: HeaderProps) {
     const location = useLocation()
     const navigate = useNavigate()
-    const { user, logout } = useAuth()
+    const { user, isLoading, logout } = useAuth()
     const isHome = location.pathname === "/"
     const isDashboard = location.pathname === "/dashboard"
     const isProfile = user ? location.pathname === `/u/${user.username}` : false
@@ -32,7 +32,7 @@ export function Header({ isDark, toggleTheme }: HeaderProps) {
                 >
                     {isDark ? "light mode" : "dark mode"}
                 </button>
-                {!user && (
+                {!isLoading && !user && (
                     <Link
                         to="/login"
                         className="cursor-pointer text-xs text-background/70 transition-colors hover:text-background sm:text-sm"
