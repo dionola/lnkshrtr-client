@@ -6,7 +6,7 @@ import { ShortenResult as ShortenResultView } from "@/components/home/ShortenRes
 
 export default function Home() {
     const [shortenedLink, setShortenedLink] = useState<ShortenResult | null>(null)
-    const { user } = useAuth()
+    const { user, isLoading } = useAuth()
 
     return (
         <>
@@ -23,7 +23,7 @@ export default function Home() {
             </div>
 
             <footer className="px-6 py-5">
-                {!user && (
+                {!isLoading && !user && (
                     <p className="text-sm text-background/30">
                         <Link to="/signup" className="underline hover:text-background/50">
                             sign up
